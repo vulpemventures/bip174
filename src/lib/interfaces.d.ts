@@ -65,7 +65,9 @@ export interface Bip32Derivation {
 }
 export interface WitnessUtxo {
     script: Buffer;
-    value: number;
+    value: Buffer;
+    nonce: Buffer;
+    asset: Buffer;
 }
 export declare type NonWitnessUtxo = Buffer;
 export declare type SighashType = number;
@@ -86,7 +88,9 @@ export interface TransactionInput {
 export declare type TransactionInputAdder = (input: TransactionInput, txBuffer: Buffer) => Buffer;
 export interface TransactionOutput {
     script: Buffer;
-    value: number;
+    value: Buffer;
+    asset: Buffer;
+    nonce: Buffer;
 }
 export declare type TransactionOutputAdder = (output: TransactionOutput, txBuffer: Buffer) => Buffer;
 export declare type TransactionVersionSetter = (version: number, txBuffer: Buffer) => Buffer;

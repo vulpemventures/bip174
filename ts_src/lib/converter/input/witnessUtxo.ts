@@ -1,6 +1,5 @@
 import { KeyValue, WitnessUtxo } from '../../interfaces';
 import { InputTypes } from '../../typeFields';
-import { readUInt64LE, writeUInt64LE } from '../tools';
 import * as varuint from '../varint';
 
 export function decode(keyVal: KeyValue): WitnessUtxo {
@@ -10,8 +9,25 @@ export function decode(keyVal: KeyValue): WitnessUtxo {
         keyVal.key.toString('hex'),
     );
   }
-  const value = readUInt64LE(keyVal.value, 0);
-  let _offset = 8;
+  let _offset = 0;
+  let _next = 33;
+  const asset = keyVal.value.slice(_offset, _next);
+  _offset = _next;
+  _next += 1;
+  const prefix = keyVal.value.slice(_offset, _next);
+  _offset = _next;
+  _next += prefix[0] === 1 ? 8 : 32;
+  const value = Buffer.concat([prefix, keyVal.value.slice(_offset, _next)]);
+  _offset = _next;
+  _next += 1;
+  const nPrefix = keyVal.value.slice(_offset, _next);
+  let nonce = nPrefix;
+  if (nPrefix[0] !== 0) {
+    _offset = _next;
+    _next += 32;
+    nonce = keyVal.value.slice(_offset, _next);
+  }
+  _offset = _next;
   const scriptLen = varuint.decode(keyVal.value, _offset);
   _offset += varuint.encodingLength(scriptLen);
   const script = keyVal.value.slice(_offset);
@@ -21,28 +37,46 @@ export function decode(keyVal: KeyValue): WitnessUtxo {
   return {
     script,
     value,
+    asset,
+    nonce,
   };
 }
 
 export function encode(data: WitnessUtxo): KeyValue {
-  const { script, value } = data;
+  const { script, value, asset, nonce } = data;
+  const assetLen = 33;
+  const nonceLen = nonce[0] === 0 ? 1 : 33;
+  const valueLen = value[0] === 1 ? 9 : 33;
   const varintLen = varuint.encodingLength(script.length);
+  const result = Buffer.allocUnsafe(
+    assetLen + nonceLen + valueLen + varintLen + script.length,
+  );
 
-  const result = Buffer.allocUnsafe(8 + varintLen + script.length);
-
-  writeUInt64LE(result, value, 0);
-  varuint.encode(script.length, result, 8);
-  script.copy(result, 8 + varintLen);
-
+  let resultLen = 0;
+  asset.copy(result, resultLen);
+  resultLen += assetLen;
+  value.copy(result, resultLen);
+  resultLen += valueLen;
+  nonce.copy(result, resultLen);
+  resultLen += nonceLen;
+  varuint.encode(script.length, result, resultLen);
+  resultLen += varintLen;
+  script.copy(result, resultLen);
   return {
     key: Buffer.from([InputTypes.WITNESS_UTXO]),
     value: result,
   };
 }
 
-export const expected = '{ script: Buffer; value: number; }';
+export const expected =
+  '{ script: Buffer; value: Buffer; asset: Buffer; nonce: Buffer; }';
 export function check(data: any): data is WitnessUtxo {
-  return Buffer.isBuffer(data.script) && typeof data.value === 'number';
+  return (
+    Buffer.isBuffer(data.script) &&
+    Buffer.isBuffer(data.value) &&
+    Buffer.isBuffer(data.asset) &&
+    Buffer.isBuffer(data.nonce)
+  );
 }
 
 export function canAdd(currentData: any, newData: any): boolean {

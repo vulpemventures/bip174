@@ -17,24 +17,36 @@ tape('Test: add Input Output', t => {
       'a914e18870f2c297fbfca54c5c6f645c7745a5b66eda87',
       'hex',
     ),
-    value: 1234567890,
+    value: Buffer.from('0100000000499602d2', 'hex'),
+    asset: Buffer.from(
+      '0125b251070e29ca19043cf33ccd7324e2ddab03ecc4ae0b5e77c4fc0e5cf6c95a',
+      'hex',
+    ),
+    nonce: Buffer.from('00', 'hex'),
   });
   psbt.addOutput({
     script: Buffer.from(
       'a914e18870f2c297fbfca54c5c6f645c7745a5b66eda87',
       'hex',
     ),
-    value: 987654321,
+    value: Buffer.from('01000000003ade68b1', 'hex'),
+    asset: Buffer.from(
+      '0125b251070e29ca19043cf33ccd7324e2ddab03ecc4ae0b5e77c4fc0e5cf6c95a',
+      'hex',
+    ),
+    nonce: Buffer.from('00', 'hex'),
   });
   const hex = psbt.toHex();
   const hex2 = Psbt.fromHex(hex, transactionFromBuffer).toHex();
   t.equal(
     hex,
-    '70736274ff01009c0100000002d4a76ff95de1f4c0161a3e53ea876a91ed95331ae8d01' +
-      '2d81f97138498ce5d860300000000ffffffffd4a76ff95de1f4c0161a3e53ea876a91' +
-      'ed95331ae8d012d81f97138498ce5dff0100000000ffffffff02d2029649000000001' +
-      '7a914e18870f2c297fbfca54c5c6f645c7745a5b66eda87b168de3a0000000017a914' +
-      'e18870f2c297fbfca54c5c6f645c7745a5b66eda87000000000000000000',
+    '70736274ff0100e3010000000002d4a76ff95de1f4c0161a3e53ea876a91ed95331ae8d' +
+      '012d81f97138498ce5d860300000000ffffffffd4a76ff95de1f4c0161a3e53ea876a91' +
+      'ed95331ae8d012d81f97138498ce5dff0100000000ffffffff020125b251070e29ca190' +
+      '43cf33ccd7324e2ddab03ecc4ae0b5e77c4fc0e5cf6c95a0100000000499602d20017a9' +
+      '14e18870f2c297fbfca54c5c6f645c7745a5b66eda870125b251070e29ca19043cf33cc' +
+      'd7324e2ddab03ecc4ae0b5e77c4fc0e5cf6c95a01000000003ade68b10017a914e18870' +
+      'f2c297fbfca54c5c6f645c7745a5b66eda87000000000000000000',
   );
   t.equal(hex, hex2);
 

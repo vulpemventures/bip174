@@ -1,7 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
 const typeFields_1 = require('../../typeFields');
-const tools_1 = require('../tools');
 const varuint = require('../varint');
 function decode(keyVal) {
   if (keyVal.key[0] !== typeFields_1.InputTypes.WITNESS_UTXO) {
@@ -10,8 +9,25 @@ function decode(keyVal) {
         keyVal.key.toString('hex'),
     );
   }
-  const value = tools_1.readUInt64LE(keyVal.value, 0);
-  let _offset = 8;
+  let _offset = 0;
+  let _next = 33;
+  const asset = keyVal.value.slice(_offset, _next);
+  _offset = _next;
+  _next += 1;
+  const prefix = keyVal.value.slice(_offset, _next);
+  _offset = _next;
+  _next += prefix[0] === 1 ? 8 : 32;
+  const value = Buffer.concat([prefix, keyVal.value.slice(_offset, _next)]);
+  _offset = _next;
+  _next += 1;
+  const nPrefix = keyVal.value.slice(_offset, _next);
+  let nonce = nPrefix;
+  if (nPrefix[0] !== 0) {
+    _offset = _next;
+    _next += 32;
+    nonce = keyVal.value.slice(_offset, _next);
+  }
+  _offset = _next;
   const scriptLen = varuint.decode(keyVal.value, _offset);
   _offset += varuint.encodingLength(scriptLen);
   const script = keyVal.value.slice(_offset);
@@ -21,25 +37,45 @@ function decode(keyVal) {
   return {
     script,
     value,
+    asset,
+    nonce,
   };
 }
 exports.decode = decode;
 function encode(data) {
-  const { script, value } = data;
+  const { script, value, asset, nonce } = data;
+  const assetLen = 33;
+  const nonceLen = nonce[0] === 0 ? 1 : 33;
+  const valueLen = value[0] === 1 ? 9 : 33;
   const varintLen = varuint.encodingLength(script.length);
-  const result = Buffer.allocUnsafe(8 + varintLen + script.length);
-  tools_1.writeUInt64LE(result, value, 0);
-  varuint.encode(script.length, result, 8);
-  script.copy(result, 8 + varintLen);
+  const result = Buffer.allocUnsafe(
+    assetLen + nonceLen + valueLen + varintLen + script.length,
+  );
+  let resultLen = 0;
+  asset.copy(result, resultLen);
+  resultLen += assetLen;
+  value.copy(result, resultLen);
+  resultLen += valueLen;
+  nonce.copy(result, resultLen);
+  resultLen += nonceLen;
+  varuint.encode(script.length, result, resultLen);
+  resultLen += varintLen;
+  script.copy(result, resultLen);
   return {
     key: Buffer.from([typeFields_1.InputTypes.WITNESS_UTXO]),
     value: result,
   };
 }
 exports.encode = encode;
-exports.expected = '{ script: Buffer; value: number; }';
+exports.expected =
+  '{ script: Buffer; value: Buffer; asset: Buffer; nonce: Buffer; }';
 function check(data) {
-  return Buffer.isBuffer(data.script) && typeof data.value === 'number';
+  return (
+    Buffer.isBuffer(data.script) &&
+    Buffer.isBuffer(data.value) &&
+    Buffer.isBuffer(data.asset) &&
+    Buffer.isBuffer(data.nonce)
+  );
 }
 exports.check = check;
 function canAdd(currentData, newData) {
