@@ -93,6 +93,8 @@ export interface WitnessUtxo {
   value: Buffer;
   nonce: Buffer;
   asset: Buffer;
+  rangeProof?: Buffer;
+  surjectionProof?: Buffer;
 }
 
 export type NonWitnessUtxo = Buffer;

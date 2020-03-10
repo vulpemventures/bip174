@@ -68,6 +68,8 @@ export interface WitnessUtxo {
     value: Buffer;
     nonce: Buffer;
     asset: Buffer;
+    rangeProof?: Buffer;
+    surjectionProof?: Buffer;
 }
 export declare type NonWitnessUtxo = Buffer;
 export declare type SighashType = number;
