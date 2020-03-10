@@ -9,7 +9,8 @@ export function decode(keyVal: KeyValue): WitnessUtxo {
         keyVal.key.toString('hex'),
     );
   }
-  let rangeProof, surjectionProof;
+  let rangeProof;
+  let surjectionProof;
   let _offset = 0;
   let _next = 33;
   const asset = keyVal.value.slice(_offset, _next);
