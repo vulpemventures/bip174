@@ -106,6 +106,7 @@ function check(data) {
     Buffer.isBuffer(data.value) &&
     Buffer.isBuffer(data.asset) &&
     Buffer.isBuffer(data.nonce) &&
+    // since proofs are optional, skip check returning true when undefined, otherwise check the type
     (data.rangeProof ? Buffer.isBuffer(data.rangeProof) : true) &&
     (data.surjectionProof ? Buffer.isBuffer(data.surjectionProof) : true)
   );
