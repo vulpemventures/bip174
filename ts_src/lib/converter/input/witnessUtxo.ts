@@ -30,7 +30,9 @@ export function decode(keyVal: KeyValue): WitnessUtxo {
     nonce = keyVal.value.slice(_offset, _next);
   }
   _offset = _next;
+  _next += 1;
   const scriptLen = varuint.decode(keyVal.value, _offset);
+  _offset = _next;
   _next += varuint.encodingLength(scriptLen);
   const script = keyVal.value.slice(_offset, _next);
   if (script.length !== scriptLen) {
