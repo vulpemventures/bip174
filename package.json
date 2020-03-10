@@ -23,16 +23,17 @@
     "prettier": "prettier 'ts_src/**/*.ts' --ignore-path ./.prettierignore",
     "prettierjs": "prettier 'src/**/*.js' --ignore-path ./.prettierignore",
     "test": "npm run format:ci && npm run lint && npm run build && npm run unit",
-    "unit": "tape src/tests/*.js src/tests/fromBIP/*.js"
+    "unit": "tape src/tests/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bitcoinjs/bip174.git"
+    "url": "git+https://github.com/vulpemventures/bip174.git"
   },
   "devDependencies": {
     "@types/node": "12.0.8",
     "@types/tape": "4.2.33",
     "buffer-json": "^2.0.0",
+    "liquidjs-lib": "github:vulpemventures/liquidjs-lib",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
@@ -40,10 +41,10 @@
     "tslint": "5.17.0",
     "typescript": "3.5.2"
   },
-  "author": "Jonathan Underwood",
+  "author": "Vulpem Ventures",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bitcoinjs/bip174/issues"
+    "url": "https://github.com/vulpemventures/bip174/issues"
   },
-  "homepage": "https://github.com/bitcoinjs/bip174#readme"
+  "homepage": "https://github.com/vulpemventures/bip174#readme"
 }
