@@ -40,7 +40,7 @@ tape('Test: add Input Output', t => {
   const hex2 = Psbt.fromHex(hex, transactionFromBuffer).toHex();
   t.equal(
     hex,
-    '70736274ff0100e3010000000002d4a76ff95de1f4c0161a3e53ea876a91ed95331ae8d' +
+    '70736274ff0100e3020000000002d4a76ff95de1f4c0161a3e53ea876a91ed95331ae8d' +
       '012d81f97138498ce5d860300000000ffffffffd4a76ff95de1f4c0161a3e53ea876a91' +
       'ed95331ae8d012d81f97138498ce5dff0100000000ffffffff020125b251070e29ca190' +
       '43cf33ccd7324e2ddab03ecc4ae0b5e77c4fc0e5cf6c95a0100000000499602d20017a9' +
