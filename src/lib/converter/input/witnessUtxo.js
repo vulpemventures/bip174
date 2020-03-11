@@ -33,7 +33,7 @@ function decode(keyVal) {
   _next += 1;
   const scriptLen = varuint.decode(keyVal.value, _offset);
   _offset = _next;
-  _next += varuint.encodingLength(scriptLen);
+  _next += scriptLen;
   const script = keyVal.value.slice(_offset, _next);
   if (script.length !== scriptLen) {
     throw new Error('Decode Error: WITNESS_UTXO script is not proper length');
