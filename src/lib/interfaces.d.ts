@@ -89,10 +89,10 @@ export interface TransactionInput {
 }
 export declare type TransactionInputAdder = (input: TransactionInput, txBuffer: Buffer) => Buffer;
 export interface TransactionOutput {
-    script: Buffer;
-    value: Buffer;
-    asset: Buffer;
-    nonce: Buffer;
+    script: string | Buffer;
+    value: number | Buffer;
+    asset: string | Buffer;
+    nonce?: Buffer;
 }
 export declare type TransactionOutputAdder = (output: TransactionOutput, txBuffer: Buffer) => Buffer;
 export declare type TransactionVersionSetter = (version: number, txBuffer: Buffer) => Buffer;
