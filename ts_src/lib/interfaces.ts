@@ -130,10 +130,10 @@ export type TransactionInputAdder = (
 ) => Buffer;
 
 export interface TransactionOutput {
-  script: Buffer;
-  value: Buffer;
-  asset: Buffer;
-  nonce: Buffer;
+  script: string | Buffer;
+  value: number | Buffer;
+  asset: string | Buffer;
+  nonce?: Buffer;
 }
 
 export type TransactionOutputAdder = (
