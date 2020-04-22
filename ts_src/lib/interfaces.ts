@@ -133,7 +133,7 @@ export interface TransactionOutput {
   script: string | Buffer;
   value: number | Buffer;
   asset: string | Buffer;
-  nonce?: Buffer;
+  nonce?: string | Buffer;
 }
 
 export type TransactionOutputAdder = (

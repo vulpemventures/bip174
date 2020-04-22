@@ -92,7 +92,7 @@ export interface TransactionOutput {
     script: string | Buffer;
     value: number | Buffer;
     asset: string | Buffer;
-    nonce?: Buffer;
+    nonce?: string | Buffer;
 }
 export declare type TransactionOutputAdder = (output: TransactionOutput, txBuffer: Buffer) => Buffer;
 export declare type TransactionVersionSetter = (version: number, txBuffer: Buffer) => Buffer;

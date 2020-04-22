@@ -164,7 +164,7 @@ exports.fixtures = [
         [
           {
             key: b('09'),
-            value: b('70736274'),
+            value: b('70736574'),
           },
           {
             key: b('05'),
