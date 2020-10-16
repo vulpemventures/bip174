@@ -27,7 +27,7 @@ export function decode(keyVal: KeyValue): WitnessUtxo {
   if (nPrefix[0] !== 0) {
     _offset = _next;
     _next += 32;
-    nonce = keyVal.value.slice(_offset, _next);
+    nonce = Buffer.concat([nonce, keyVal.value.slice(_offset, _next)]);
   }
   _offset = _next;
   _next += 1;
@@ -40,13 +40,17 @@ export function decode(keyVal: KeyValue): WitnessUtxo {
   }
   _offset = _next;
   if (_offset < keyVal.value.length) {
-    const rangeProofLen = varuint.decode(keyVal.value, _offset);
-    _next += varuint.encodingLength(rangeProofLen);
-    rangeProof = keyVal.value.slice(_offset, _next);
-    _offset = _next;
+    _next += 1;
     const surjectionProofLen = varuint.decode(keyVal.value, _offset);
-    _next += varuint.encodingLength(surjectionProofLen);
+    _offset = _next;
+    _next += surjectionProofLen;
     surjectionProof = keyVal.value.slice(_offset, _next);
+    _offset = _next;
+    _next += 3;
+    const rangeProofLen = varuint.decode(keyVal.value, _offset);
+    _offset = _next;
+    _next += rangeProofLen;
+    rangeProof = keyVal.value.slice(_offset, _next);
     _offset = _next;
   }
   return {
@@ -62,18 +66,26 @@ export function decode(keyVal: KeyValue): WitnessUtxo {
 export function encode(data: WitnessUtxo): KeyValue {
   const { script, value, asset, nonce, rangeProof, surjectionProof } = data;
   const assetLen = 33;
-  const nonceLen = nonce[0] === 0 ? 1 : 33;
   const valueLen = value[0] === 1 ? 9 : 33;
-  const varintLen = varuint.encodingLength(script.length);
+  const nonceLen = nonce[0] === 0 ? 1 : 33;
+  const varintScriptLen = varuint.encodingLength(script.length);
   const rangeProofLen = rangeProof ? rangeProof.length : 0;
+  const varintRangeProofLen = rangeProof
+    ? varuint.encodingLength(rangeProof.length)
+    : 0;
   const surjectionProofLen = surjectionProof ? surjectionProof.length : 0;
+  const varintSurjectionProofLen = surjectionProof
+    ? varuint.encodingLength(surjectionProof.length)
+    : 0;
   const result = Buffer.allocUnsafe(
     assetLen +
-      nonceLen +
       valueLen +
-      varintLen +
+      nonceLen +
+      varintScriptLen +
       script.length +
+      varintRangeProofLen +
       rangeProofLen +
+      varintSurjectionProofLen +
       surjectionProofLen,
   );
 
@@ -85,15 +97,18 @@ export function encode(data: WitnessUtxo): KeyValue {
   nonce.copy(result, resultLen);
   resultLen += nonceLen;
   varuint.encode(script.length, result, resultLen);
-  resultLen += varintLen;
+  resultLen += varintScriptLen;
   script.copy(result, resultLen);
   if (rangeProof && surjectionProof) {
-    varuint.encode(rangeProof.length, result, resultLen);
-    resultLen += varuint.encodingLength(rangeProofLen);
-    rangeProof.copy(result, resultLen);
+    resultLen += script.length;
     varuint.encode(surjectionProof.length, result, resultLen);
-    resultLen += varuint.encodingLength(surjectionProofLen);
+    resultLen += varintSurjectionProofLen;
     surjectionProof.copy(result, resultLen);
+    resultLen += surjectionProofLen;
+    varuint.encode(rangeProof.length, result, resultLen);
+    resultLen += varintRangeProofLen;
+    rangeProof.copy(result, resultLen);
+    resultLen += rangeProofLen;
   }
   return {
     key: Buffer.from([InputTypes.WITNESS_UTXO]),
