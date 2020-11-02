@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
+const liquidjs_lib_1 = require('liquidjs-lib');
 const tape = require('tape');
 const psbt_1 = require('../lib/psbt');
 const methods_1 = require('./fixtures/methods');
@@ -71,6 +72,14 @@ function addInputOutput(psbt) {
       'a914e18870f2c297fbfca54c5c6f645c7745a5b66eda87',
       'hex',
     ),
-    value: 1234567890,
+    value: liquidjs_lib_1.confidential.satoshiToConfidentialValue(1234567890),
+    asset: Buffer.concat([
+      Buffer.alloc(1, 1),
+      Buffer.from(
+        '1f91920948cdb31244b795cdfef87f5139adfcf8b743ce549d91ebc68ced19f8',
+        'hex',
+      ),
+    ]),
+    nonce: Buffer.from('00', 'hex'),
   });
 }
