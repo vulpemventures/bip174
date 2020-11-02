@@ -1,0 +1,1 @@
+{"version":3,"file":"varint.d.ts","sourceRoot":"","sources":["../../../ts_src/lib/converter/varint.ts"],"names":[],"mappings":";AAQA,wBAAgB,MAAM,CACpB,OAAO,EAAE,MAAM,EACf,MAAM,CAAC,EAAE,MAAM,EACf,MAAM,CAAC,EAAE,MAAM,GACd,MAAM,CAkCR;AAED,wBAAgB,MAAM,CAAC,MAAM,EAAE,MAAM,EAAE,MAAM,CAAC,EAAE,MAAM,GAAG,MAAM,CAgC9D;AAED,wBAAgB,cAAc,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,CAUtD"}

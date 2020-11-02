@@ -69,3 +69,4 @@ declare const outputs: {
     checkPubkey: (keyVal: import("../interfaces").KeyValue) => Buffer | undefined;
 };
 export { globals, inputs, outputs };
+//# sourceMappingURL=index.d.ts.map

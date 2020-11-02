@@ -97,3 +97,4 @@ export interface TransactionOutput {
 export declare type TransactionOutputAdder = (output: TransactionOutput, txBuffer: Buffer) => Buffer;
 export declare type TransactionVersionSetter = (version: number, txBuffer: Buffer) => Buffer;
 export declare type TransactionLocktimeSetter = (locktime: number, txBuffer: Buffer) => Buffer;
+//# sourceMappingURL=interfaces.d.ts.map

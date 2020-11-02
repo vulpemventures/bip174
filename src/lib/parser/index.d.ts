@@ -6,3 +6,4 @@ export interface PsbtAttributes {
     inputs: PsbtInput[];
     outputs: PsbtOutput[];
 }
+//# sourceMappingURL=index.d.ts.map
