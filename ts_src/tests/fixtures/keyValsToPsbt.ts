@@ -226,7 +226,7 @@ export const fixtures = [
       globalMapKeyVals: [
         {
           key: b('00'),
-          value: b('02000000000000000000'),
+          value: b('0200000000000000000000'),
         },
         {
           key: b(
