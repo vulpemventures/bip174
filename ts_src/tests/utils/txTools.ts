@@ -5,12 +5,24 @@ import {
   TransactionFromBuffer,
 } from '../../lib/interfaces';
 
+export function jsonify(parsed: any): string {
+  return JSON.stringify(
+    parsed,
+    (key: string, value: any) => {
+      return key !== undefined && value !== undefined && value.type === 'Buffer'
+        ? Buffer.from(value.data).toString('hex')
+        : value;
+    },
+    2,
+  );
+}
+
 export function toValueBuffer(value: number): Buffer {
   return confidential.satoshiToConfidentialValue(value);
 }
 
 export function getDefaultTx(version: number = 1): Transaction {
-  const TX = new Transaction(Buffer.from([2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+  const TX = new Transaction(Buffer.from('0200000000000000000000', 'hex'));
   TX.tx.version = version;
   return TX;
 }
