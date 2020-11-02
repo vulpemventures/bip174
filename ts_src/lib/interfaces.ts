@@ -90,7 +90,11 @@ export interface Bip32Derivation {
 
 export interface WitnessUtxo {
   script: Buffer;
-  value: number;
+  value: Buffer;
+  nonce: Buffer;
+  asset: Buffer;
+  rangeProof?: Buffer;
+  surjectionProof?: Buffer;
 }
 
 export type NonWitnessUtxo = Buffer;
@@ -126,8 +130,10 @@ export type TransactionInputAdder = (
 ) => Buffer;
 
 export interface TransactionOutput {
-  script: Buffer;
-  value: number;
+  script: string | Buffer;
+  value: number | Buffer;
+  asset: string | Buffer;
+  nonce?: string | Buffer;
 }
 
 export type TransactionOutputAdder = (

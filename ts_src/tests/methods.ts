@@ -1,3 +1,4 @@
+import { confidential } from 'liquidjs-lib';
 import * as tape from 'tape';
 import { Psbt } from '../lib/psbt';
 import { fixtures } from './fixtures/methods';
@@ -76,6 +77,14 @@ function addInputOutput(psbt: Psbt): void {
       'a914e18870f2c297fbfca54c5c6f645c7745a5b66eda87',
       'hex',
     ),
-    value: 1234567890,
+    value: confidential.satoshiToConfidentialValue(1234567890),
+    asset: Buffer.concat([
+      Buffer.alloc(1, 1),
+      Buffer.from(
+        '1f91920948cdb31244b795cdfef87f5139adfcf8b743ce549d91ebc68ced19f8',
+        'hex',
+      ),
+    ]),
+    nonce: Buffer.from('00', 'hex'),
   });
 }

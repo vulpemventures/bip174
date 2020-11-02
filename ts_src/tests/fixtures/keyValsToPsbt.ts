@@ -62,7 +62,7 @@ export const fixtures = [
     data: {
       globalMapKeyVals: [
         {
-          key: b('ef'),
+          key: b('00'),
           value: b('fb'),
         },
       ],
@@ -71,7 +71,11 @@ export const fixtures = [
           {
             key: b('01'),
             value: b(
-              '70aaf00800000000160014d85c2b71d0060b09c9886aeb815e50991dda124d',
+              '0b1f91920948cdb31244b795cdfef87f5139adfcf8b743ce549d91ebc68ced16f8' +
+                '08edef170b8f538c785be73e8a0a01b0707ac7e6088330a3180d37c278139f0973' +
+                '00' +
+                '0000000000000016' +
+                '0014659bedb5d3d3c7ab12d7f85323c3a1b6c060efbe',
             ),
           },
           {
@@ -163,7 +167,7 @@ export const fixtures = [
         [
           {
             key: b('09'),
-            value: b('70736274'),
+            value: b('70736574'),
           },
           {
             key: b('05'),
@@ -226,7 +230,7 @@ export const fixtures = [
       globalMapKeyVals: [
         {
           key: b('00'),
-          value: b('02000000000000000000'),
+          value: b('0200000000000000000000'),
         },
         {
           key: b(
@@ -241,8 +245,7 @@ export const fixtures = [
       outputKeyVals: [],
     },
     expected:
-      'cHNidP8BAAoCAAAAAAAAAAAATwEEiLIeA0o0bZiAAAAAAy5kZ4EAdSYO56gxGJ2BTmVqM' +
-      'Aq3+aFRtzd+//6RBREDsDTsMrqmw8BUganRXG7mxIqWkuGChcF01BRxj4VnDiIQAQIDBA' +
-      'QAAIAFAACABgAAAAAAAA==',
+      // tslint:disable-next-line: max-line-length
+      'cHNldP8BAAsCAAAAAAAAAAAAAE8BBIiyHgNKNG2YgAAAAAMuZGeBAHUmDueoMRidgU5lajAKt/mhUbc3fv/+kQURA7A07DK6psPAVIGp0Vxu5sSKlpLhgoXBdNQUcY+FZw4iEAECAwQEAACABQAAgAYAAAAAAAA=',
   },
 ];

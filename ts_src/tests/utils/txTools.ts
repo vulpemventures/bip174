@@ -1,12 +1,28 @@
-import { Transaction as BTransaction } from 'bitcoinjs-lib';
+import { confidential, Transaction as BTransaction } from 'liquidjs-lib';
 import { reverseBuffer } from '../../lib/converter/tools';
 import {
   Transaction as ITransaction,
   TransactionFromBuffer,
 } from '../../lib/interfaces';
 
+export function jsonify(parsed: any): string {
+  return JSON.stringify(
+    parsed,
+    (key: string, value: any) => {
+      return key !== undefined && value !== undefined && value.type === 'Buffer'
+        ? Buffer.from(value.data).toString('hex')
+        : value;
+    },
+    2,
+  );
+}
+
+export function toValueBuffer(value: number): Buffer {
+  return confidential.satoshiToConfidentialValue(value);
+}
+
 export function getDefaultTx(version: number = 1): Transaction {
-  const TX = new Transaction(Buffer.from([1, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+  const TX = new Transaction(Buffer.from('0200000000000000000000', 'hex'));
   TX.tx.version = version;
   return TX;
 }
@@ -15,7 +31,7 @@ export const transactionFromBuffer: TransactionFromBuffer = (
   buffer: Buffer,
 ): Transaction => new Transaction(buffer);
 
-export class Transaction implements ITransaction {
+class Transaction implements ITransaction {
   tx: BTransaction;
   constructor(buffer: Buffer) {
     this.tx = BTransaction.fromBuffer(buffer);
@@ -35,15 +51,33 @@ export class Transaction implements ITransaction {
   }
 
   addInput(input: any): void {
+    if (
+      (input as any).hash === undefined ||
+      (input as any).index === undefined ||
+      (!Buffer.isBuffer((input as any).hash) &&
+        typeof (input as any).hash !== 'string') ||
+      typeof (input as any).index !== 'number'
+    ) {
+      throw new Error('Error adding input.');
+    }
     const hash =
       typeof input.hash === 'string'
         ? reverseBuffer(Buffer.from(input.hash, 'hex'))
         : input.hash;
-    this.tx.addInput(hash, input.index, input.sequence);
+    const script = input.script ? input.script : Buffer.alloc(0);
+    this.tx.addInput(hash, input.index, input.sequence, script, input.issuance);
   }
 
   addOutput(output: any): void {
-    this.tx.addOutput(output.script, output.value);
+    if (
+      (output as any).script === undefined ||
+      (output as any).value === undefined ||
+      !Buffer.isBuffer((output as any).script) ||
+      !Buffer.isBuffer((output as any).value)
+    ) {
+      throw new Error('Error adding output.');
+    }
+    this.tx.addOutput(output.script, output.value, output.asset, output.nonce);
   }
 
   toBuffer(): Buffer {

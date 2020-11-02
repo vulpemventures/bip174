@@ -41,7 +41,7 @@ function psbtFromBuffer(buffer, txGetter) {
     }
     return isEnd;
   }
-  if (readUInt32BE() !== 0x70736274) {
+  if (readUInt32BE() !== 0x70736574) {
     throw new Error('Format Error: Invalid Magic Number');
   }
   if (readUInt8() !== 0xff) {
