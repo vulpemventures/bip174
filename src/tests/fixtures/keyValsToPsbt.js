@@ -242,11 +242,33 @@ exports.fixtures = [
           value: b('01020304040000800500008006000000'),
         },
       ],
-      inputKeyVals: [],
-      outputKeyVals: [],
+      inputKeyVals: [
+        [
+          {
+            key: Buffer.from('ffaa', 'hex'),
+            value: Buffer.from('unknowvalue', 'hex'),
+          },
+        ],
+      ],
+      outputKeyVals: [
+        [
+          {
+            key: Buffer.from(
+              '02041045d0af4528ccf6627650574f71ed46a642ee00f131' +
+                'e4b223c0036915810060d19682b0d1f89f73bfe8756335' +
+                '9880b67c49e408df089627a93abe9512cc6dd2',
+              'hex',
+            ),
+            value: Buffer.from('01000000', 'hex'),
+          },
+        ],
+      ],
     },
     expected:
-      // tslint:disable-next-line: max-line-length
-      'cHNldP8BAAsCAAAAAAAAAAAAAE8BBIiyHgNKNG2YgAAAAAMuZGeBAHUmDueoMRidgU5lajAKt/mhUbc3fv/+kQURA7A07DK6psPAVIGp0Vxu5sSKlpLhgoXBdNQUcY+FZw4iEAECAwQEAACABQAAgAYAAAAAAAA=',
+      'cHNldP8BAAsCAAAAAAAAAAAAAE8BBIiyHgNKNG2YgAAAAAMuZGeBAHUmDu' +
+      'eoMRidgU5lajAKt/mhUbc3fv/+kQURA7A07DK6psPAVIGp0Vxu5sSKlpLh' +
+      'goXBdNQUcY+FZw4iEAECAwQEAACABQAAgAYAAAAAAv+qAABCAgQQRdCvRS' +
+      'jM9mJ2UFdPce1GpkLuAPEx5LIjwANpFYEAYNGWgrDR+J9zv+h1YzWYgLZ8' +
+      'SeQI3wiWJ6k6vpUSzG3SBAEAAAAA',
   },
 ];
