@@ -62,7 +62,7 @@ export const fixtures = [
     data: {
       globalMapKeyVals: [
         {
-          key: b('ef'),
+          key: b('00'),
           value: b('fb'),
         },
       ],
@@ -71,7 +71,11 @@ export const fixtures = [
           {
             key: b('01'),
             value: b(
-              '70aaf00800000000160014d85c2b71d0060b09c9886aeb815e50991dda124d',
+              '0b1f91920948cdb31244b795cdfef87f5139adfcf8b743ce549d91ebc68ced16f8' +
+                '08edef170b8f538c785be73e8a0a01b0707ac7e6088330a3180d37c278139f0973' +
+                '00' +
+                '0000000000000016' +
+                '0014659bedb5d3d3c7ab12d7f85323c3a1b6c060efbe',
             ),
           },
           {
@@ -163,7 +167,7 @@ export const fixtures = [
         [
           {
             key: b('09'),
-            value: b('70736274'),
+            value: b('70736574'),
           },
           {
             key: b('05'),
@@ -226,7 +230,7 @@ export const fixtures = [
       globalMapKeyVals: [
         {
           key: b('00'),
-          value: b('02000000000000000000'),
+          value: b('0200000000000000000000'),
         },
         {
           key: b(
@@ -237,12 +241,33 @@ export const fixtures = [
           value: b('01020304040000800500008006000000'),
         },
       ],
-      inputKeyVals: [],
-      outputKeyVals: [],
+      inputKeyVals: [
+        [
+          {
+            key: Buffer.from('ffaa', 'hex'),
+            value: Buffer.from('unknowvalue', 'hex'),
+          },
+        ],
+      ],
+      outputKeyVals: [
+        [
+          {
+            key: Buffer.from(
+              '02041045d0af4528ccf6627650574f71ed46a642ee00f131' +
+                'e4b223c0036915810060d19682b0d1f89f73bfe8756335' +
+                '9880b67c49e408df089627a93abe9512cc6dd2',
+              'hex',
+            ),
+            value: Buffer.from('01000000', 'hex'),
+          },
+        ],
+      ],
     },
     expected:
-      'cHNidP8BAAoCAAAAAAAAAAAATwEEiLIeA0o0bZiAAAAAAy5kZ4EAdSYO56gxGJ2BTmVqM' +
-      'Aq3+aFRtzd+//6RBREDsDTsMrqmw8BUganRXG7mxIqWkuGChcF01BRxj4VnDiIQAQIDBA' +
-      'QAAIAFAACABgAAAAAAAA==',
+      'cHNldP8BAAsCAAAAAAAAAAAAAE8BBIiyHgNKNG2YgAAAAAMuZGeBAHUmDu' +
+      'eoMRidgU5lajAKt/mhUbc3fv/+kQURA7A07DK6psPAVIGp0Vxu5sSKlpLh' +
+      'goXBdNQUcY+FZw4iEAECAwQEAACABQAAgAYAAAAAAv+qAABCAgQQRdCvRS' +
+      'jM9mJ2UFdPce1GpkLuAPEx5LIjwANpFYEAYNGWgrDR+J9zv+h1YzWYgLZ8' +
+      'SeQI3wiWJ6k6vpUSzG3SBAEAAAAA',
   },
 ];

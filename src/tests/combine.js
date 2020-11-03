@@ -9,29 +9,14 @@ for (const f of combine_1.fixtures) {
     const psbts = f.psbts.map(p =>
       psbt_1.Psbt.fromHex(p, txTools_1.transactionFromBuffer),
     );
-    const jsonA1 = jsonify(psbts[0]);
-    const jsonA2 = jsonify(psbts[1]);
+    const strBefore = txTools_1.jsonify(psbts[0]);
+    const strSecondBefore = txTools_1.jsonify(psbts[1]);
     psbts[0].combine(psbts[1]);
-    const jsonB1 = jsonify(psbts[0]);
-    const jsonB2 = jsonify(psbts[1]);
-    // console.log(jsonA1);
-    // console.log(jsonA2);
-    // console.log(jsonB1);
-    // console.log(jsonB2);
-    t.notDeepEqual(JSON.parse(jsonA1), JSON.parse(jsonB1));
-    t.deepEqual(JSON.parse(jsonA2), JSON.parse(jsonB2));
+    const strAfter = txTools_1.jsonify(psbts[0]);
+    const strSecondAfter = txTools_1.jsonify(psbts[1]);
+    t.notDeepEqual(JSON.parse(strBefore), JSON.parse(strAfter));
+    t.deepEqual(JSON.parse(strSecondBefore), JSON.parse(strSecondAfter));
     t.equal(psbts[0].toHex(), f.result);
     t.end();
   });
-}
-function jsonify(parsed) {
-  return JSON.stringify(
-    parsed,
-    (key, value) => {
-      return key !== undefined && value.type === 'Buffer'
-        ? Buffer.from(value.data).toString('hex')
-        : value;
-    },
-    2,
-  );
 }

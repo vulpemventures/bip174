@@ -6,3 +6,4 @@ export declare function makeConverter(TYPE_BYTE: number): {
     expected: string;
     canAddToArray: (array: Bip32Derivation[], item: Bip32Derivation, dupeSet: Set<string>) => boolean;
 };
+//# sourceMappingURL=bip32Derivation.d.ts.map

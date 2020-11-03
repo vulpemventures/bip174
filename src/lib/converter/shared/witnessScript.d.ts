@@ -6,3 +6,4 @@ export declare function makeConverter(TYPE_BYTE: number): {
     expected: string;
     canAdd: (currentData: any, newData: any) => boolean;
 };
+//# sourceMappingURL=witnessScript.d.ts.map

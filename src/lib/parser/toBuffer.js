@@ -16,7 +16,7 @@ function psbtToBuffer({ globalMap, inputs, outputs }) {
   const inputBuffers = keyValsOrEmptyToBuffer(inputKeyVals);
   const outputBuffers = keyValsOrEmptyToBuffer(outputKeyVals);
   const header = Buffer.allocUnsafe(5);
-  header.writeUIntBE(0x70736274ff, 0, 5);
+  header.writeUIntBE(0x70736574ff, 0, 5);
   return Buffer.concat(
     [header, globalBuffer].concat(inputBuffers, outputBuffers),
   );

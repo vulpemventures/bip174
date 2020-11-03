@@ -7,3 +7,4 @@ export declare function psbtToKeyVals({ globalMap, inputs, outputs, }: PsbtAttri
     inputKeyVals: KeyValue[][];
     outputKeyVals: KeyValue[][];
 };
+//# sourceMappingURL=toBuffer.d.ts.map
