@@ -34,7 +34,6 @@ tape('writeUint64LE', t => {
     const expected = Buffer.from('ff' + '0100000000000000', 'hex');
     const bufferToWrite = Buffer.from('ff' + '0000000000000000', 'hex');
     const result = tools_1.writeUInt64LE(bufferToWrite, 1, 1);
-    console.log(bufferToWrite);
     q.strictEqual(expected.equals(bufferToWrite), true);
     q.strictEqual(result, 8 + 1);
     q.end();
