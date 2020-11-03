@@ -57,6 +57,22 @@ tape('BIP32Derivation', t => {
     q => {
       const converter = bip32Derivation_1.makeConverter(2);
       const invalidKeyVal = Object.assign({}, keyVal, {
+        key: Buffer.from(
+          '02061045d0af4528ccf6627650574f71ed46a642ee00f131' +
+            'e4b223c0036915810060d19682b0d1f89f73bfe8756335' +
+            '9880b67c49e408df089627a93abe9512cc6dd2',
+          'hex',
+        ),
+      });
+      q.throws(() => converter.decode(invalidKeyVal));
+      q.end();
+    },
+  );
+  tape(
+    'converter decode should fail if the pubkey has not a prefix = 2, 3, 4',
+    q => {
+      const converter = bip32Derivation_1.makeConverter(2);
+      const invalidKeyVal = Object.assign({}, keyVal, {
         key: Buffer.from('0200000000', 'hex'),
       });
       q.throws(() => converter.decode(invalidKeyVal));
