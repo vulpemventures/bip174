@@ -13,7 +13,7 @@
   "scripts": {
     "build": "npm run clean && tsc -p ./tsconfig.json && rimraf 'src/tests/**/*.d.ts' && npm run formatjs",
     "clean": "rimraf src types",
-    "coverage": "nyc --check-coverage --exclude='src/tests/**/*.js' --reporter=lcov --reporter=text --branches 90 --functions 90 --lines 90 npm run unit",
+    "coverage": "nyc --check-coverage --exclude='src/tests/**/*.js' --reporter=lcov --reporter=text --branches 85 --functions 90 --lines 90 npm run unit",
     "flb": "npm run format && npm run lint && npm run build",
     "format": "npm run prettier -- --write",
     "formatjs": "npm run prettierjs -- --write > /dev/null 2>&1",
@@ -22,7 +22,7 @@
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "prettier": "prettier 'ts_src/**/*.ts' --ignore-path ./.prettierignore",
     "prettierjs": "prettier 'src/**/*.js' --ignore-path ./.prettierignore",
-    "test": "npm run format:ci && npm run lint && npm run build && npm run unit",
+    "test": "npm run formatjs && npm run format:ci && npm run lint && npm run build && npm run unit",
     "unit": "tape src/tests/*.js"
   },
   "repository": {
@@ -38,7 +38,8 @@
     "rimraf": "^2.6.3",
     "tape": "^4.10.2",
     "tslint": "5.17.0",
-    "typescript": "3.5.2"
+    "typescript": "3.5.2",
+    "liquidjs-lib": "git+https://github.com/vulpemventures/liquidjs-lib.git"
   },
   "author": "Vulpem Ventures",
   "license": "MIT",

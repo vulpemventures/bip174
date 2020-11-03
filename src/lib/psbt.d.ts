@@ -23,3 +23,4 @@ export declare class Psbt {
     combine(...those: this[]): this;
     getTransaction(): Buffer;
 }
+//# sourceMappingURL=psbt.d.ts.map

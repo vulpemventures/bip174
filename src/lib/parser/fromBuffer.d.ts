@@ -10,3 +10,4 @@ interface PsbtFromKeyValsArg {
 export declare function checkKeyBuffer(type: string, keyBuf: Buffer, keyNum: number): void;
 export declare function psbtFromKeyVals(unsignedTx: Transaction, { globalMapKeyVals, inputKeyVals, outputKeyVals }: PsbtFromKeyValsArg): PsbtAttributes;
 export {};
+//# sourceMappingURL=fromBuffer.d.ts.map

@@ -12,3 +12,4 @@ export declare function addInputAttributes(inputs: PsbtInput[], data: any): void
 export declare function addOutputAttributes(outputs: PsbtOutput[], data: any): void;
 export declare function defaultVersionSetter(version: number, txBuf: Buffer): Buffer;
 export declare function defaultLocktimeSetter(locktime: number, txBuf: Buffer): Buffer;
+//# sourceMappingURL=utils.d.ts.map
