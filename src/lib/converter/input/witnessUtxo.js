@@ -70,12 +70,12 @@ function encode(data) {
   const nonceLen = nonce[0] === 0 ? 1 : 33;
   const varintScriptLen = varuint.encodingLength(script.length);
   const rangeProofLen = rangeProof ? rangeProof.length : 0;
-  const varintRangeProofLen = rangeProof
-    ? varuint.encodingLength(rangeProof.length)
+  const varintRangeProofLen = rangeProofLen
+    ? varuint.encodingLength(rangeProofLen)
     : 0;
   const surjectionProofLen = surjectionProof ? surjectionProof.length : 0;
-  const varintSurjectionProofLen = surjectionProof
-    ? varuint.encodingLength(surjectionProof.length)
+  const varintSurjectionProofLen = surjectionProofLen
+    ? varuint.encodingLength(surjectionProofLen)
     : 0;
   const result = Buffer.allocUnsafe(
     assetLen +
@@ -98,15 +98,15 @@ function encode(data) {
   varuint.encode(script.length, result, resultLen);
   resultLen += varintScriptLen;
   script.copy(result, resultLen);
-  if (rangeProof && surjectionProof) {
+  if (rangeProofLen && surjectionProofLen) {
     resultLen += script.length;
-    varuint.encode(surjectionProof.length, result, resultLen);
+    varuint.encode(surjectionProofLen, result, resultLen);
     resultLen += varintSurjectionProofLen;
-    surjectionProof.copy(result, resultLen);
+    surjectionProof && surjectionProof.copy(result, resultLen);
     resultLen += surjectionProofLen;
-    varuint.encode(rangeProof.length, result, resultLen);
+    varuint.encode(rangeProofLen, result, resultLen);
     resultLen += varintRangeProofLen;
-    rangeProof.copy(result, resultLen);
+    rangeProof && rangeProof.copy(result, resultLen);
     resultLen += rangeProofLen;
   }
   return {
