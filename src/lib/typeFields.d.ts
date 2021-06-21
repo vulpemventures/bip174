@@ -22,3 +22,4 @@ export declare enum OutputTypes {
     BIP32_DERIVATION = 2
 }
 export declare const OUTPUT_TYPE_NAMES: string[];
+//# sourceMappingURL=typeFields.d.ts.map

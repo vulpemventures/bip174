@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
+const txTools_1 = require('../utils/txTools');
 const b = hex => Buffer.from(hex, 'hex');
 exports.fixtures = [
   {
@@ -45,7 +46,11 @@ exports.fixtures = [
       {
         witnessUtxo: {
           script: b('a914b7f5faf40e3d40a5a459b1db3535f2b72fa921e887'),
-          value: 200000000,
+          value: txTools_1.toValueBuffer(200000000),
+          asset: b(
+            '5ac9f65c0efcc4775e0baec4ec03abdde22473cd3cf33c0419ca290e0751b225',
+          ),
+          nonce: b('00'),
         },
         redeemScript: b(
           '00208c2353173743b595dfb4a07b72ba8e42e3797da74e87fe7d9d7497e3b2028903',

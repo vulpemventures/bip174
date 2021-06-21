@@ -50,9 +50,7 @@ export function decode(buffer: Buffer, offset?: number): number {
   if (!Buffer.isBuffer(buffer))
     throw new TypeError('buffer must be a Buffer instance');
   if (!offset) offset = 0;
-
   const first = buffer.readUInt8(offset);
-
   // 8 bit
   if (first < 0xfd) {
     Object.assign(decode, { bytes: 1 });

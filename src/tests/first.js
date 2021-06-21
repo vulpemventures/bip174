@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
+const assert = require('assert');
 const tape = require('tape');
 const psbt_1 = require('../lib/psbt');
 const first_1 = require('./fixtures/first');
@@ -14,23 +15,29 @@ for (const f of first_1.fixtures) {
     const parsed2 = psbt_1.Psbt.fromHex(hex, txTools_1.transactionFromBuffer);
     const hex2 = parsed2.toHex();
     const parsed3 = psbt_1.Psbt.fromHex(hex2, txTools_1.transactionFromBuffer);
+    const expectedRangeProof = f.output.inputs.map(input =>
+      Buffer.from(input.witnessUtxo.rangeProof, 'hex'),
+    );
+    const expectedSurjectionProof = f.output.inputs.map(input =>
+      Buffer.from(input.witnessUtxo.surjectionProof, 'hex'),
+    );
+    assert.deepStrictEqual(
+      parsed.inputs.map((input, index) =>
+        input.witnessUtxo.rangeProof.equals(expectedRangeProof[index]),
+      ),
+      expectedRangeProof.map(_ => true),
+    );
+    assert.deepStrictEqual(
+      parsed.inputs.map((input, index) =>
+        input.witnessUtxo.surjectionProof.equals(
+          expectedSurjectionProof[index],
+        ),
+      ),
+      expectedSurjectionProof.map(_ => true),
+    );
     t.strictEqual(parsed.toHex(), parsed2.toHex());
     t.strictEqual(parsed.toHex(), parsed3.toHex());
-    // @ts-ignore
-    parsed3.globalMap.unsignedTx = parsed3.globalMap.unsignedTx.toBuffer();
-    t.deepEqual(JSON.parse(jsonify(parsed3)), f.output);
     t.equal(hex, hex2);
     t.end();
   });
-}
-function jsonify(parsed) {
-  return JSON.stringify(
-    parsed,
-    (key, value) => {
-      return key !== undefined && value !== undefined && value.type === 'Buffer'
-        ? Buffer.from(value.data).toString('hex')
-        : value;
-    },
-    2,
-  );
 }
