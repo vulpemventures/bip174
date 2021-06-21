@@ -1,6 +1,6 @@
 {
   "name": "bip174-liquid",
-  "version": "1.0.1-liquid.revert",
+  "version": "1.0.1-liquid.revert1",
   "description": "",
   "main": "src/lib/psbt.js",
   "types": "src/lib/psbt.d.ts",
