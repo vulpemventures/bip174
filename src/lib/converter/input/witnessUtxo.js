@@ -46,8 +46,9 @@ function decode(keyVal) {
     _next += surjectionProofLen;
     surjectionProof = keyVal.value.slice(_offset, _next);
     _offset = _next;
-    _next += 3;
+    _next += 1;
     const rangeProofLen = varuint.decode(keyVal.value, _offset);
+    _next += varuint.encodingLength(rangeProofLen) - 1;
     _offset = _next;
     _next += rangeProofLen;
     rangeProof = keyVal.value.slice(_offset, _next);
@@ -70,13 +71,9 @@ function encode(data) {
   const nonceLen = nonce[0] === 0 ? 1 : 33;
   const varintScriptLen = varuint.encodingLength(script.length);
   const rangeProofLen = rangeProof ? rangeProof.length : 0;
-  const varintRangeProofLen = rangeProofLen
-    ? varuint.encodingLength(rangeProofLen)
-    : 0;
+  const varintRangeProofLen = varuint.encodingLength(rangeProofLen);
   const surjectionProofLen = surjectionProof ? surjectionProof.length : 0;
-  const varintSurjectionProofLen = surjectionProofLen
-    ? varuint.encodingLength(surjectionProofLen)
-    : 0;
+  const varintSurjectionProofLen = varuint.encodingLength(surjectionProofLen);
   const result = Buffer.allocUnsafe(
     assetLen +
       valueLen +
@@ -98,7 +95,7 @@ function encode(data) {
   varuint.encode(script.length, result, resultLen);
   resultLen += varintScriptLen;
   script.copy(result, resultLen);
-  if (rangeProofLen && surjectionProofLen) {
+  if (nonceLen > 1) {
     resultLen += script.length;
     varuint.encode(surjectionProofLen, result, resultLen);
     resultLen += varintSurjectionProofLen;
