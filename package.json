@@ -30,16 +30,16 @@
     "url": "git+https://github.com/vulpemventures/bip174.git"
   },
   "devDependencies": {
-    "@types/node": "12.0.8",
+    "@types/node": "^15.12.4",
     "@types/tape": "4.2.33",
     "buffer-json": "^2.0.0",
+    "liquidjs-lib": "^5.1.12",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
     "tape": "^4.10.2",
     "tslint": "5.17.0",
-    "typescript": "3.5.2",
-    "liquidjs-lib": "^5.1.12"
+    "typescript": "3.5.2"
   },
   "author": "Vulpem Ventures",
   "license": "MIT",
