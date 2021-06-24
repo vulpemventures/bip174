@@ -9,6 +9,7 @@ for (const f of combine_1.fixtures) {
     const psbts = f.psbts.map(p =>
       psbt_1.Psbt.fromHex(p, txTools_1.transactionFromBuffer),
     );
+    console.log(psbts.map(p => p.inputs[0]));
     const strBefore = txTools_1.jsonify(psbts[0]);
     const strSecondBefore = txTools_1.jsonify(psbts[1]);
     psbts[0].combine(psbts[1]);
