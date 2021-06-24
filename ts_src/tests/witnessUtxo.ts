@@ -1,21 +1,48 @@
 import * as test from 'tape';
 import * as witnessUtxo from '../lib/converter/input/witnessUtxo';
-
 test('witnessUtxo encode', t => {
-  const witness = {
-    asset: Buffer.from(
-      '015ac9f65c0efcc4775e0baec4ec03abdde22473cd3cf33c0419ca290e0751b225',
-      'hex',
-    ),
-    value: Buffer.from('010000000000000010', 'hex'),
-    nonce: Buffer.from('00', 'hex'),
-    surjectionProof: undefined,
-    rangeProof: undefined,
-    script: Buffer.from('0014ea273029aa016b4ede5688ebbface3eccb769e06'),
-  };
+  const witnesses = [
+    // unconfidential
+    {
+      asset: Buffer.alloc(33),
+      value: Buffer.concat([Buffer.from('01', 'hex'), Buffer.alloc(8)]),
+      nonce: Buffer.alloc(1),
+      script: Buffer.alloc(20),
+      rangeProof: undefined,
+      surjectionProof: undefined,
+    },
+    // confidential w/ proofs
+    {
+      asset: Buffer.alloc(33),
+      value: Buffer.alloc(33),
+      nonce: Buffer.concat([Buffer.from('01', 'hex'), Buffer.alloc(32)]),
+      script: Buffer.alloc(20),
+      rangeProof: Buffer.alloc(4174),
+      surjectionProof: Buffer.alloc(67),
+    },
+    // confidential w/ "empty" proofs
+    {
+      asset: Buffer.alloc(33),
+      value: Buffer.alloc(33),
+      nonce: Buffer.concat([Buffer.from('01', 'hex'), Buffer.alloc(32)]),
+      script: Buffer.alloc(20),
+      rangeProof: Buffer.alloc(1),
+      surjectionProof: Buffer.alloc(1),
+    },
+    // confidential w/o proofs
+    {
+      asset: Buffer.alloc(33),
+      value: Buffer.alloc(33),
+      nonce: Buffer.concat([Buffer.from('01', 'hex'), Buffer.alloc(32)]),
+      script: Buffer.alloc(20),
+      rangeProof: Buffer.alloc(0),
+      surjectionProof: Buffer.alloc(0),
+    },
+  ];
 
-  const keyVal = witnessUtxo.encode(witness);
-
-  t.deepEqual(witnessUtxo.decode(keyVal), witness);
+  witnesses.forEach(witness => {
+    const keyVal = witnessUtxo.encode(witness);
+    t.deepEqual(witnessUtxo.decode(keyVal), witness);
+  });
   t.end();
 });
