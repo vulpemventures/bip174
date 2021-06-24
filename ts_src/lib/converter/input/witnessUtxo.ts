@@ -75,7 +75,7 @@ export function encode(data: WitnessUtxo): KeyValue {
     nonceLen === 1 ? 0 : varuint.encodingLength(rangeProofLen);
   const surjectionProofLen = surjectionProof ? surjectionProof.length : 0;
   const varintSurjectionProofLen =
-    surjectionProofLen === 0 ? 0 : varuint.encodingLength(surjectionProofLen);
+    nonceLen === 1 ? 0 : varuint.encodingLength(surjectionProofLen);
   const result = Buffer.allocUnsafe(
     assetLen +
       valueLen +
