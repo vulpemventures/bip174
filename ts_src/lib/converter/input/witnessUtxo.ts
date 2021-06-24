@@ -72,7 +72,7 @@ export function encode(data: WitnessUtxo): KeyValue {
   const varintScriptLen = varuint.encodingLength(script.length);
   const rangeProofLen = rangeProof ? rangeProof.length : 0;
   const varintRangeProofLen =
-    rangeProofLen === 0 ? 0 : varuint.encodingLength(rangeProofLen);
+    nonceLen === 1 ? 0 : varuint.encodingLength(rangeProofLen);
   const surjectionProofLen = surjectionProof ? surjectionProof.length : 0;
   const varintSurjectionProofLen =
     surjectionProofLen === 0 ? 0 : varuint.encodingLength(surjectionProofLen);
